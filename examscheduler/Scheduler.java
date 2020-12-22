@@ -39,6 +39,14 @@ public class Scheduler {
 		auditoriums = new JSONParserCustom().parseAuditoriums(path);
 	}
 	
+	public void printScheduledExams() {
+		for (Exam exam : examDomains.keySet()) {
+			System.out.println(exam);
+			System.out.println(examDomains.get(exam));
+			System.out.println("\n\n\n");
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -69,5 +77,13 @@ public class Scheduler {
 	
 	public List<Auditorium> getAuditoriums() {
 		return auditoriums;
+	}
+
+	public Map<Exam, List<Domain>> getExamDomains() {
+		return examDomains;
+	}
+
+	public void setExamDomains(Map<Exam, List<Domain>> examDomains) {
+		this.examDomains = examDomains;
 	}
 }

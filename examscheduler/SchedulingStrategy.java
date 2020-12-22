@@ -10,6 +10,8 @@ public abstract class SchedulingStrategy {
 	
 	protected Map<Exam, List<Domain>> examDomains;
 	
+	public abstract void schedule(Scheduler scheduler);
+	
 	/*private void prepareDomains(Exam exam) {
 		List<Domain> domains = examDomains.get(exam);
 		List<Domain> newDomains = new ArrayList<>();
@@ -24,7 +26,7 @@ public abstract class SchedulingStrategy {
 		}
 	}*/
 	
-	void removeByDomainExcept(Domain toExclude, Exam exceptionExam) {
+	void removeByDomainWithException(Domain toExclude, Exam exceptionExam) {
 		for (Exam exam : examDomains.keySet()) {
 			if (exam == exceptionExam) {
 				continue;
@@ -47,8 +49,6 @@ public abstract class SchedulingStrategy {
 		}
 		return false;
 	}
-	
-	public abstract void schedule(Scheduler scheduler);
 }
 
 
@@ -72,7 +72,7 @@ class MostAttendenceFirst extends SchedulingStrategy {
 		
 		boolean scheduled = scheduleUtil(0);
 		
-		if (scheduled) {
+		/*if (scheduled) {
 			boolean ok = true;
 			for (Exam exam : examDomains.keySet()) {
 				if (examDomains.get(exam).size() != 1) {
@@ -84,7 +84,9 @@ class MostAttendenceFirst extends SchedulingStrategy {
 			if (ok) {
 				System.out.println(" OK ");
 			}
-		}
+		}*/
+		
+		scheduler.setExamDomains(examDomains);
 	}
 
 	private boolean scheduleUtil(int examNumber) {
@@ -97,7 +99,7 @@ class MostAttendenceFirst extends SchedulingStrategy {
 			examDomains = new HashMap<>(oldDomains);
 			boolean ok = pickDomain(currentExam, possibleDomainsOld.get(i));
 			if (ok) {
-				removeByDomainExcept(possibleDomainsOld.get(i), currentExam);
+				removeByDomainWithException(possibleDomainsOld.get(i), currentExam);
 				if (examNumber == exams.size() - 1) {
 					return true;
 				}

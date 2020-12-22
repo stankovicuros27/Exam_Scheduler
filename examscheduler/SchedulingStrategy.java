@@ -31,7 +31,7 @@ public abstract class SchedulingStrategy {
 			}
 			List<Domain> newDomains = new ArrayList<>();
 			for (Domain domain : examDomains.get(exam)) {
-				if (!Domain.domainsOverlap(domain, toExclude) /*&& !(Exam.sameDepartment(exceptionExam, exam) && domain.getDay() == toExclude.getDay())*/) {
+				if (!Domain.domainsOverlap(domain, toExclude) && !(Exam.sameDepartmentAndYear(exceptionExam, exam) && domain.getDay() == toExclude.getDay())) {
 					newDomains.add(domain);
 				}
 			}
@@ -50,7 +50,6 @@ public abstract class SchedulingStrategy {
 	
 	public abstract void schedule(Scheduler scheduler);
 }
-
 
 
 class MostAttendenceFirst extends SchedulingStrategy {

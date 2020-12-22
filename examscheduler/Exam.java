@@ -6,16 +6,18 @@ public class Exam {
 	private String code;
 	private int studentsAttendingExam;
 	private boolean requiresComputers;
+	private int year;
 	private ArrayList<String> departments = new ArrayList<>();
 		
 	public Exam(String code, int studentsAttendingExam, boolean requiresComputers, ArrayList<String> departments) {
 		super();
 		this.code = code;
+		this.year = Integer.parseInt(code.substring(5, 6));
 		this.studentsAttendingExam = studentsAttendingExam;
 		this.requiresComputers = requiresComputers;
 		this.departments = departments;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -29,10 +31,10 @@ public class Exam {
 		return sb.toString();
 	}
 	
-	public static boolean sameDepartment(Exam e1, Exam e2) {
+	public static boolean sameDepartmentAndYear(Exam e1, Exam e2) {
 		for (String department : e1.getDepartments()) {
 			if (e2.getDepartments().contains(department)) {
-				return true;
+				return e1.year == e2.year;
 			}
 		}
 		return false;
@@ -40,6 +42,10 @@ public class Exam {
 
 	public String getCode() {
 		return code;
+	}
+	
+	public int getYear() {
+		return year;
 	}
 
 	public int getStudentsAttendingExam() {

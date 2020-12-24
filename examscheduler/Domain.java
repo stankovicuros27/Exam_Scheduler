@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Domain {
+	private static int id0 = 0;
+	private int id;
 	private int day;
 	private String time;
 	private ArrayList<Auditorium> selectedAuditoriums;
@@ -83,6 +85,16 @@ public class Domain {
 		return capacity;
 	}
 	
+	public int calculateCapacityWithComputers() {
+		int capacity = 0;
+		for (Auditorium auditorium : selectedAuditoriums) {
+			if (auditorium.isHasComputers()) {
+				capacity += auditorium.getCapacity();
+			}
+		}
+		return capacity;
+	}
+	
 	public int calculateRequiredStaff() {
 		int requiredStaff = 0;
 		for (Auditorium auditorium : selectedAuditoriums) {
@@ -116,6 +128,7 @@ public class Domain {
 
 	public Domain(int day, String time, ArrayList<Auditorium> selectedAuditoriums) {
 		super();
+		id = id0++;
 		this.day = day;
 		this.time = time;
 		this.selectedAuditoriums = selectedAuditoriums;
@@ -182,5 +195,8 @@ public class Domain {
 	}
 	public ArrayList<Auditorium> getSelectedAuditoriums() {
 		return selectedAuditoriums;
+	}
+	public int getId() {
+		return id;
 	}
 }

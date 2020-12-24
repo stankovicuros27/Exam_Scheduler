@@ -12,7 +12,7 @@ public class Scheduler {
 	private List<Auditorium> auditoriums;
 	private static Scheduler scheduler = null;
 	static final String[] examTimes = {"08:00", "11:30", "15:00", "18:30"};
-	private SchedulingStrategy strategy = null; //maybe init?
+	private SchedulingStrategy strategy = null; 
 	
 	private Map<Exam, List<Domain>> examDomains = null;
 	
@@ -26,7 +26,7 @@ public class Scheduler {
 		}
 	}
 	
-	public void scheduleExams() {
+	public void scheduleExams() throws Exception {
 		strategy = new MostAttendenceFirst();
 		strategy.schedule(this);
 	}

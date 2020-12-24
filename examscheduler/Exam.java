@@ -39,6 +39,16 @@ public class Exam {
 		}
 		return false;
 	}
+	
+	public boolean canFitInDomain(Domain domain) {
+		int cnt = 0;
+		if (requiresComputers) {
+			cnt = domain.calculateCapacityWithComputers();
+		} else {
+			cnt = domain.calculateCapacity();
+		}
+		return studentsAttendingExam <= cnt;
+	}
 
 	public String getCode() {
 		return code;

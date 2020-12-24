@@ -36,7 +36,6 @@ public abstract class SchedulingStrategy {
 				    return Integer.compare(a.calculateCapacity(), b.calculateCapacity());
 				};
 			}
-			
 			List<Domain> domains = examDomains.get(exam);
 			domains.sort(comp);
 		}
@@ -57,8 +56,7 @@ public abstract class SchedulingStrategy {
 		if (!scheduled) {
 			throw new Exception("Cannot schedule!");
 		} else {
-			System.out.println("desibrabo");
-			System.out.println("ok");
+			System.out.print("ok");
 		}
 		
 		scheduler.setExamDomains(examDomains);
@@ -67,10 +65,17 @@ public abstract class SchedulingStrategy {
 	private boolean scheduleUtil(int examNumber) throws Exception {
 		long start = System.currentTimeMillis();
 
+		StepWriter stepWriter = new StepWriter(1);
 		Map<Exam, List<Domain>> oldDomains = new HashMap<>(examDomains);	// a way to remember old domains, for backtrack
 		
 		Exam currentExam = exams.get(examNumber);
 		List<Domain> possibleDomains = examDomains.get(currentExam);
+		for (int nextExamIndex = examNumber + 1; nextExamIndex < exams.size(); nextExamIndex++) {
+			Exam nextExam = exams.get(nextExamIndex);
+			if (examDomains.get(nextExam).size() == 0) {
+				return false;
+			}
+		}
 		
 		while (!possibleDomains.isEmpty()) {
 			for (int nextExamIndex = examNumber + 1; nextExamIndex < exams.size(); nextExamIndex++) {
@@ -78,6 +83,7 @@ public abstract class SchedulingStrategy {
 				examDomains.put(nextExam, oldDomains.get(nextExam));
 			}
 			if (currentExam.canFitInDomain(possibleDomains.get(0))) {
+				stepWriter.addForwardStep(currentExam, possibleDomains.get(0));
 				removeByDomainWithException(possibleDomains.get(0), currentExam);	// removes overlaping domains from other exams
 				if (examNumber == exams.size() - 1) {
 					Domain actualDomain = possibleDomains.get(0);
@@ -100,6 +106,7 @@ public abstract class SchedulingStrategy {
 		}
 
 		//System.out.println(examNumber);
+		stepWriter.addBacktrackStep(currentExam);
 		examDomains = new HashMap<>(oldDomains);
 		return false;
 	}

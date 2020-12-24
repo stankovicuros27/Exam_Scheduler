@@ -6,18 +6,19 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scheduler scheduler = Scheduler.getInstance();
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 5; i++) {
 			System.out.print(i + ": ");
-			scheduler.loadAuditoriums(SIMULATION_PATH + "sale" + 4 + ".json");
-			scheduler.loadExams(SIMULATION_PATH + "rok" + 3 + ".json");
+			scheduler.loadAuditoriums(SIMULATION_PATH + "sale" + i + ".json");
+			scheduler.loadExams(SIMULATION_PATH + "rok" + i + ".json");
 			try {
 				scheduler.scheduleExams();
-				scheduler.printScheduledExams();
+				//scheduler.printScheduledExams();
 				CSVExporter csvExporter = new CSVExporter();
 				csvExporter.exportCSV(scheduler, i);
 			} catch (Exception e) {
 				System.out.print("Cannot schedule exams!");
 			}
+			System.out.println();
 		}
 		
 		/*for (int i = 1; i <= 5; i++) {
@@ -28,13 +29,13 @@ public class Main {
 				try {
 					scheduler.scheduleExams();
 					//scheduler.printScheduledExams();
-					CSVExporter csvExporter = new CSVExporter();
-					csvExporter.exportCSV(scheduler, i);
+					//CSVExporter csvExporter = new CSVExporter();
+					//csvExporter.exportCSV(scheduler, i);
 				} catch (Exception e) {
 					System.out.print("Cannot schedule exams!");
 				}
 				System.out.println();
 			}
-		}	*/	
+		}*/
 	}
 }
